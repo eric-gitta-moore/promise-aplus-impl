@@ -9,13 +9,12 @@ const FULFILLED = 'fulfilled'
 const REJECTED = 'rejected'
 
 class Promise {
+  result = null
+  state = PENDING
+  callbacks = []
   constructor(fn) {
-    this.result = null
-    this.state = PENDING
-    this.callbacks = []
-
-    let onFulfilled = value => transition(this, FULFILLED, value)
-    let onRejected = reason => transition(this, REJECTED, reason)
+    let onFulfilled = value => this.#transition(FULFILLED, value)
+    let onRejected = reason => this.#transition(REJECTED, reason)
 
     let ignore = false
     let resolve = value => {
@@ -34,6 +33,13 @@ class Promise {
     } catch (error) {
       reject(error)
     }
+  }
+
+  #transition(state, result) {
+    if (this.state !== PENDING) return
+    this.state = state
+    this.result = result
+    nextTick(() => handleCallbacks(this.callbacks, state, result))
   }
 
   then(onFulfilled, onRejected) {
@@ -64,13 +70,6 @@ const handleCallback = (callback, state, result) => {
 
 const handleCallbacks = (callbacks, state, result) => {
   while (callbacks.length) handleCallback(callbacks.shift(), state, result)
-}
-
-const transition = (promise, state, result) => {
-  if (promise.state !== PENDING) return
-  promise.state = state
-  promise.result = result
-  nextTick(() => handleCallbacks(promise.callbacks, state, result))
 }
 
 const resolvePromise = (promise, result, resolve, reject) => {
