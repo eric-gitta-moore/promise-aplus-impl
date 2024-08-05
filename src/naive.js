@@ -43,7 +43,7 @@ class Promise {
       if (this.state === PENDING) {
         this.callbacks.push(callback)
       } else {
-        nextTick(() => handleCallback(callback, this.state, this.result), 0)
+        nextTick(() => handleCallback(callback, this.state, this.result))
       }
     })
   }
@@ -70,7 +70,7 @@ const transition = (promise, state, result) => {
   if (promise.state !== PENDING) return
   promise.state = state
   promise.result = result
-  nextTick(() => handleCallbacks(promise.callbacks, state, result), 0)
+  nextTick(() => handleCallbacks(promise.callbacks, state, result))
 }
 
 const resolvePromise = (promise, result, resolve, reject) => {
