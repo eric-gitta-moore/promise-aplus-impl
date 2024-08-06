@@ -20,7 +20,7 @@ class Promise {
     let resolve = value => {
       if (ignore) return
       ignore = true
-      resolvePromise(this, value, onFulfilled, onRejected)
+      this.#resolvePromise(value, onFulfilled, onRejected)
     }
     let reject = reason => {
       if (ignore) return
@@ -35,13 +35,6 @@ class Promise {
     }
   }
 
-  #transition(state, result) {
-    if (this.state !== PENDING) return
-    this.state = state
-    this.result = result
-    nextTick(() => handleCallbacks(this.callbacks, state, result))
-  }
-
   then(onFulfilled, onRejected) {
     return new Promise((resolve, reject) => {
       let callback = { onFulfilled, onRejected, resolve, reject }
@@ -52,6 +45,40 @@ class Promise {
         nextTick(() => handleCallback(callback, this.state, this.result))
       }
     })
+  }
+
+  #transition(state, result) {
+    if (this.state !== PENDING) return
+    this.state = state
+    this.result = result
+    nextTick(() => {
+      while (this.callbacks.length)
+        handleCallback(this.callbacks.shift(), state, result)
+    })
+  }
+
+  #resolvePromise(result, resolve, reject) {
+    if (result === this) {
+      let reason = new TypeError('Can not fufill promise with itself')
+      return reject(reason)
+    }
+
+    if (isPromise(result)) {
+      return result.then(resolve, reject)
+    }
+
+    if (isThenable(result)) {
+      try {
+        let then = result.then
+        if (isFunction(then)) {
+          return new Promise(then.bind(result)).then(resolve, reject)
+        }
+      } catch (error) {
+        return reject(error)
+      }
+    }
+
+    resolve(result)
   }
 }
 
@@ -66,34 +93,6 @@ const handleCallback = (callback, state, result) => {
   } catch (error) {
     reject(error)
   }
-}
-
-const handleCallbacks = (callbacks, state, result) => {
-  while (callbacks.length) handleCallback(callbacks.shift(), state, result)
-}
-
-const resolvePromise = (promise, result, resolve, reject) => {
-  if (result === promise) {
-    let reason = new TypeError('Can not fufill promise with itself')
-    return reject(reason)
-  }
-
-  if (isPromise(result)) {
-    return result.then(resolve, reject)
-  }
-
-  if (isThenable(result)) {
-    try {
-      let then = result.then
-      if (isFunction(then)) {
-        return new Promise(then.bind(result)).then(resolve, reject)
-      }
-    } catch (error) {
-      return reject(error)
-    }
-  }
-
-  resolve(result)
 }
 
 module.exports = Promise
