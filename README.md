@@ -4,6 +4,8 @@ A simple implementation of Promise /A+ Spec
 
 https://promisesaplus.com/
 
+Core code 60 line: [src/naive.js](src/naive.js)
+
 ##
 
 ```shell
