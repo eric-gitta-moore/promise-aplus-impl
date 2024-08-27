@@ -2,6 +2,8 @@
 
 A simple implementation of Promise /A+ Spec
 
+https://promisesaplus.com/
+
 ##
 
 ```shell
