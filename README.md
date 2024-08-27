@@ -4,7 +4,7 @@ A simple implementation of Promise /A+ Spec
 
 https://promisesaplus.com/
 
-Core code 60 line: [src/naive.js](src/naive.js)
+60 line core code: [src/naive.js](src/naive.js)
 
 ##
 
