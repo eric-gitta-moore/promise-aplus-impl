@@ -53,9 +53,9 @@ main();
 
 
 // ---
-(async function name() {
-  console.log(await 1)
-})()
+// (async function name() {
+//   console.log(await 1)
+// })()
 
 
   (function name() {
