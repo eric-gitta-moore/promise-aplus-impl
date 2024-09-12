@@ -1,4 +1,5 @@
-// link: https://babeljs.io/repl#?browsers=chrome%2050&build=&builtIns=false&corejs=3.21&spec=false&loose=false&code_lz=IYZwngdgxgBAZgV2gFwJYHsIwLbFRACgEoBvAKBhmAHc9kYBGAbjIF8zd9ig&debug=false&forceAllTransforms=false&modules=umd&shippedProposals=false&evaluate=false&fileSize=false&timeTravel=false&sourceType=script&lineWrap=true&presets=env%2Creact%2Cstage-2&prettier=true&targets=&version=7.22.20&externalPlugins=&assumptions=%7B%7D
+// link: https://babeljs.io/repl#?browsers=chrome%2050&build=&builtIns=false&corejs=3.21&spec=false&loose=false&code_lz=IYZwngdgxgBAZgV2gFwJYHsIwLbFRACgEoBvAKBhikxHQBsBTAOjvQHMDgB3PZGARiIBuMgF8yufMSA&debug=false&forceAllTransforms=false&modules=umd&shippedProposals=false&evaluate=false&fileSize=false&timeTravel=false&sourceType=script&lineWrap=true&presets=env%2Creact%2Cstage-2&prettier=true&targets=&version=7.22.20&externalPlugins=&assumptions=%7B%7D
+// Decorators version 选择 legacy
 
 /*
 async function main(){
